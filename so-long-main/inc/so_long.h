@@ -15,10 +15,27 @@
 # include <string.h>
 # include <errno.h>
 
+# define ESC_KEY 65307
+
+typedef struct	s_data {
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}				t_data;
+
+typedef struct	s_vars {
+	void	*mlx;
+	void	*win;
+}				t_vars;
+
 int open_window(void);
 int map_test(char **argv);
 int map_tab(char **argv, size_t i);
 int map_valid(char **map, int len);
 char	*ft_strdup_long(const char *s);
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
+int	close_window(int keycode, t_vars *vars);
 
 #endif

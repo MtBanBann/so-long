@@ -89,7 +89,7 @@ int map_tab(char **argv, size_t len)
 	while (line)
 	{
 		map[y++] = ft_strdup_long(line);
-		//printf("%s",map[y-1]);
+		printf("%s",map[y-1]);
 		free(line);
 		line = get_next_line(fd);
 	}
@@ -107,24 +107,29 @@ int map_valid(char **map, int len)
 {
 	int i;
 	int y;
+	int len_map;
 
 	i = 0;
 	y = 0;
-	
-	while (map[i])
+	len_map = strlen(map[0]);
+	printf("%d\n",len_map);
+	while (i < len-1)
 	{
 		
 		while (map[i][y])
-		{
-			if (i == 0 || i == len)
+		{	
+			
+			if ((i == 0 || i == len - 1) && y < len_map-2)
 			{
-				if(map[i][y] != 1)
+				
+				if(map[i][y] != '1')
 				{
+					printf("%d\n",y);
 					printf("haut ou bas mauvais");
 					exit(EXIT_FAILURE);
 				}
 			}
-			else if(map[i][0] != 1 || map[i][strlen(map[i])] != 1)
+			else if(map[i][0] != '1' || map[i][len_map - 2] != '1')
 			{
 				printf("coter mauvais");
 				exit(EXIT_FAILURE);	
@@ -148,7 +153,7 @@ char	*ft_strdup_long(const char *s)
 	tab = malloc(sizeof(char) * (i + 1));
 	if (!tab)
 		return (NULL);
-	while (s[y] && s[y] != '\n')
+	while (s[y])
 	{
 		tab[y] = s[y];
 		y++;
