@@ -6,7 +6,7 @@
 /*   By: afavier <afavier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 11:31:58 by afavier           #+#    #+#             */
-/*   Updated: 2024/02/13 21:54:45 by afavier          ###   ########.fr       */
+/*   Updated: 2024/02/16 22:08:57 by afavier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int map_test(char **argv)
 	size_t i;
 	size_t len;
 
+
 	len = 0;
 	i = 0;
 	fd = open(argv[1], O_RDONLY);
@@ -32,20 +33,15 @@ int map_test(char **argv)
 	while (line)
 	{
 		if (i == 0)
-		{
-			len = ft_strlen(line);
-			//printf("%zu 1\n",ft_strlen(line));
-		}
+			len = ft_strlen_so_long(line);
 		
-		else if (len != ft_strlen(line))
+		else if (len != ft_strlen_so_long(line))
 		{
-			//printf("%zu 3\n",ft_strlen(line));
 			close(fd);
 			free(line);
 			ft_dprintf(2, "so_long: %s: map invalidbvewhb\n", argv[1]);
 			exit(EXIT_FAILURE);
 		}
-		//printf("%zu 2\n",ft_strlen(line));
 		i++;
 		free(line);
 		line = get_next_line(fd);
@@ -89,7 +85,6 @@ int map_tab(char **argv, size_t len)
 	while (line)
 	{
 		map[y++] = ft_strdup_long(line);
-		printf("%s",map[y-1]);
 		free(line);
 		line = get_next_line(fd);
 	}
@@ -100,6 +95,7 @@ int map_tab(char **argv, size_t len)
 	}
 	free(line);
 	map_valid(map, len);
+	open_window(map);
 	return (0);
 }
 
@@ -112,7 +108,6 @@ int map_valid(char **map, int len)
 	i = 0;
 	y = 0;
 	len_map = strlen(map[0]);
-	printf("%d\n",len_map);
 	while (i < len-1)
 	{
 		
@@ -124,7 +119,6 @@ int map_valid(char **map, int len)
 				
 				if(map[i][y] != '1')
 				{
-					printf("%d\n",y);
 					printf("haut ou bas mauvais");
 					exit(EXIT_FAILURE);
 				}
@@ -160,5 +154,15 @@ char	*ft_strdup_long(const char *s)
 	}
 	tab[y] = '\0';
 	return (tab);
+}
+
+size_t	ft_strlen_so_long(const char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i] && str[i] != '\n')
+		i++;
+	return (i);
 }
 

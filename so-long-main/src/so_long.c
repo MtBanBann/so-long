@@ -6,7 +6,7 @@
 /*   By: afavier <afavier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 11:31:53 by afavier           #+#    #+#             */
-/*   Updated: 2024/02/13 15:08:46 by afavier          ###   ########.fr       */
+/*   Updated: 2024/02/16 23:23:01 by afavier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,37 +29,59 @@ int main(int argc, char **argv)
 	else
 	{
 		map_test(argv);
-		if(open_window() == 1)
-			return(1);
+
 	}
 	return (0);
 }
 
-int open_window(void)
+int open_window(char **map)
 {
+	char	*relative_path = "./slamereche.xpm";
+	int		img_width;
+	int		img_height;
+	int len;
 	int i;
-	int j;
+	int y;
+	int height;
+	int width;
 	t_data	img;
 	t_vars vars;
 
-	i = 5;
-	j = 5;
+	i = 0;
+	y = 0;
+	height = 0;
+	width = 0;
+	len = ft_strlen(map[0]);
 	vars.mlx = mlx_init();
-	vars.win = mlx_new_window(vars.mlx, 1920, 1080, "Hello world!");
-	img.img = mlx_new_image(vars.mlx, 1920, 1080);
+	vars.win = mlx_new_window(vars.mlx, 1920, 1080, "so long");
+	img.img = mlx_xpm_file_to_image(vars.mlx, relative_path, &img_width, &img_height);
+	if (img.img == NULL)
+	{
+		printf("Error: Failed to load image\n");
+		exit(1);
+	}
+	//img.img = mlx_new_image(vars.mlx, 1920, 1080);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
 								&img.endian);
-	while (i < 500)
+	while (y < 5)
 	{
-		while (j < 500)
+		while (i < len - 2)
 		{
-			my_mlx_pixel_put(&img, i, j, 0x00FF0000);
-			j++;
+			if (map[y][i] == '1')
+			{
+				mlx_put_image_to_window(vars.mlx, vars.win, img.img, width, height);
+			}
+			width = width + 120;
+			i++;			
 		}
-		i++;
-		j = i;
+		width = 0;
+		height = height + 130;
+		i = 0;
+		y++;
 	}
-	mlx_put_image_to_window(vars.mlx, vars.win, img.img, 0, 0);
+	//mlx_put_image_to_window(vars.mlx, vars.win, img.img, 0, 0);
+	//mlx_put_image_to_window(vars.mlx, vars.win, img.img, height, height);
+	//mlx_put_image_to_window(vars.mlx, vars.win, img.img, 211, 238);
 	mlx_hook(vars.win, 2, 1L<<0, close_window, &vars);
 	mlx_loop(vars.mlx);
 

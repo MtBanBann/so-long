@@ -30,12 +30,13 @@ typedef struct	s_vars {
 	void	*win;
 }				t_vars;
 
-int open_window(void);
+int open_window(char **map);
 int map_test(char **argv);
 int map_tab(char **argv, size_t i);
 int map_valid(char **map, int len);
 char	*ft_strdup_long(const char *s);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 int	close_window(int keycode, t_vars *vars);
+size_t	ft_strlen_so_long(const char *str);
 
 #endif

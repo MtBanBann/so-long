@@ -6,7 +6,7 @@
 /*   By: afavier <afavier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 09:14:20 by afavier           #+#    #+#             */
-/*   Updated: 2024/02/13 21:29:23 by afavier          ###   ########.fr       */
+/*   Updated: 2024/02/16 09:40:25 by afavier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ size_t	ft_strlen(const char *str)
 	size_t	i;
 
 	i = 0;
-	while (str[i] && str[i] != '\n')
+	while (str[i])
 		i++;
 	return (i);
 }
