@@ -20,8 +20,6 @@ int map_test(char **argv)
 	size_t i;
 	size_t len;
 
-
-	len = 0;
 	i = 0;
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
@@ -34,7 +32,6 @@ int map_test(char **argv)
 	{
 		if (i == 0)
 			len = ft_strlen_so_long(line);
-		
 		else if (len != ft_strlen_so_long(line))
 		{
 			close(fd);
@@ -59,9 +56,9 @@ int map_test(char **argv)
 int map_tab(char **argv, size_t len)
 {
 	char *line;
-	char **map;
+	t_vars vars;
 	int fd;
-	int y;
+	size_t y;
 	
 	y = 0;
 	fd = open(argv[1], O_RDONLY);
@@ -70,8 +67,9 @@ int map_tab(char **argv, size_t len)
 		ft_dprintf(2, "so_long: %s: %s\n", argv[1], strerror(errno));
 		exit(EXIT_FAILURE);
 	}
-	map = malloc(sizeof(char *) * (len));
-	if (!map)
+	vars.map = malloc(sizeof(t_map));
+	vars.map->map = malloc(sizeof(char *) * (len));
+	if (!vars.map->map)
 	{
 		if (close(fd) == -1)
 		{
@@ -84,7 +82,7 @@ int map_tab(char **argv, size_t len)
 	line = get_next_line(fd);
 	while (line)
 	{
-		map[y++] = ft_strdup_long(line);
+		vars.map->map[y++] = ft_strdup_long(line);
 		free(line);
 		line = get_next_line(fd);
 	}
@@ -94,36 +92,37 @@ int map_tab(char **argv, size_t len)
 		exit(EXIT_FAILURE);
 	}
 	free(line);
-	map_valid(map, len);
-	open_window(map);
+	map_valid(vars, len);
+	map_duplicate(vars, len);
+	open_window(vars);
 	return (0);
 }
 
-int map_valid(char **map, int len)
+int map_valid(t_vars vars, size_t len)
 {
-	int i;
-	int y;
-	int len_map;
+	size_t i;
+	size_t y;
 
 	i = 0;
 	y = 0;
-	len_map = strlen(map[0]);
+	vars.map->width = strlen(vars.map->map[0]);
+	printf("%ldbitttteeee\n",vars.map->width);
 	while (i < len-1)
 	{
 		
-		while (map[i][y])
+		while (vars.map->map[i][y])
 		{	
 			
-			if ((i == 0 || i == len - 1) && y < len_map-2)
+			if ((i == 0 || i == len - 1) && y < vars.map->width - 2)
 			{
 				
-				if(map[i][y] != '1')
+				if(vars.map->map[i][y] != '1')
 				{
 					printf("haut ou bas mauvais");
 					exit(EXIT_FAILURE);
 				}
 			}
-			else if(map[i][0] != '1' || map[i][len_map - 2] != '1')
+			else if(vars.map->map[i][0] != '1' || vars.map->map[i][vars.map->width - 2] != '1')
 			{
 				printf("coter mauvais");
 				exit(EXIT_FAILURE);	

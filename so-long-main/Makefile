@@ -7,7 +7,8 @@ INC := inc/so_long.h \
 		/home/kali/Desktop/minilibx-linux/mlx.h
 
 SO_LONG =	$(SRC_DIR)/so_long.c \
-			$(SRC_DIR)/map_test.c
+			$(SRC_DIR)/map_test.c \
+			$(SRC_DIR)/map_good.c 
 
 SRC := $(SO_LONG)
 
